@@ -1,0 +1,38 @@
+{
+  "name": "movies",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "faker": "^4.1.0",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-scripts": "2.1.1",
+    "semantic-ui-css": "^2.4.0",
+    "semantic-ui-react": "^0.82.0"
+  },
+  "scripts": {
+    "format": "prettier --write \"src/**/*.{js,jsx,css,json}\"",
+    "format:check": "prettier --list-different  \"src/**/*.{js,jsx,css,json}\"",
+    "lint": "eslint **/*.{js,jsx}",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "eslint": "^5.9.0",
+    "prettier": "^1.15.3",
+    "semantic-ui": "^2.4.2",
+    "eslint-config-prettier": "^3.1.1",
+    "eslint-plugin-prettier": "^2.6.2"
+  }
+}
