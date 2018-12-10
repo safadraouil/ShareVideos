@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import '../semantic/dist/semantic.min.css';
 import "semantic-ui-css/semantic.min.css";
 import "./Movies.css";
+import { Link } from "@reach/router";
 
 const KEY = "9209bb756d7b55053d4c72ffd1f9ecc8";
 const API = `https://api.themoviedb.org/3/movie/popular?api_key=${KEY}&language=en-US&page=1%60`;
@@ -40,6 +41,7 @@ class Movies extends Component {
   render() {
     const { data_mv } = this.state;
     console.log("data_mv", data_mv);
+
     return (
       <ul>
         <input
@@ -55,7 +57,13 @@ class Movies extends Component {
           <li key={movie.id}>
             <div className="card">
               <div className="img">
-                <img src={PICTURE + movie.poster_path} alt={movie.title} />
+                <Link to={`/Hello/${movie.id}`}>
+                  <img
+                    src={PICTURE + movie.poster_path}
+                    alt={movie.title}
+                    key={movie.id}
+                  />
+                </Link>
               </div>
 
               <div className="text">
