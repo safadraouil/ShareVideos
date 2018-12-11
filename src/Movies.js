@@ -33,7 +33,9 @@ class Movies extends Component {
     let { value } = e.target;
     let { data_mv_all } = this.state;
     let data_mv_res = data_mv_all.filter(
-      obj => obj.title.includes(value) || obj.overview.includes(value)
+      obj =>
+        obj.title.toLowerCase().includes(value.toLowerCase()) ||
+        obj.overview.toLowerCase().includes(value.toLowerCase())
     );
     this.setState({ data_mv: data_mv_res });
   }
