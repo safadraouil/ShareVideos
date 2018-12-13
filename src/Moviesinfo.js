@@ -15,7 +15,6 @@ class Moviesinfo extends Component {
     );
     let data_auth = await response.json();
 
-    console.log("movies_data_auth", data_auth);
     this.setState({
       data_mv_auth: data_auth,
       data_mv_auth_info: data_auth.production_companies
@@ -23,17 +22,13 @@ class Moviesinfo extends Component {
   }
 
   render() {
-    let movie, i;
+    let movie;
     const { movies, id } = this.props;
     const { data_mv_auth, data_mv_auth_info } = this.state;
-
-    console.log("data_mv_authhhhhhhh", data_mv_auth_info);
 
     /* select movie from movies with the same id(from target value in app.js) */
 
     movie = movies.filter(item => item.id === +id)[0];
-    console.log("movies", movies);
-    console.log("movie", movie);
     if (!movie || !movie.id) return <div>...</div>;
 
     return (
