@@ -5,7 +5,7 @@
 .card {
   margin-top: 0%;
   margin-left: 0%;
-  height: 40%px;
+  height: 600px;
   width: 48%;
   position: relative;
   float: left;
@@ -13,9 +13,11 @@
 }
 
 img {
+  margin-top: 4%;
+  margin-bottom: 10%;
   margin-left: 2%;
   width: 40%;
-  height: 350px;
+  height: 500px;
   position: relative;
   size: 60px;
   float: left;
@@ -24,7 +26,7 @@ img {
 
 /*title*/
 text {
-  margin-top: 10%;
+  margin-top: 20%;
   margin-bottom: 10%;
   width: 40%;
   height: 10%;
@@ -33,6 +35,11 @@ text {
   text-align: center;
 
   size: 3em;
+}
+.button_circular {
+  margin-top: 30%;
+  float: right;
+  position: relative;
 }
 .input {
   margin-top: 2%;

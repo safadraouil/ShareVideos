@@ -7,7 +7,6 @@ import { Link } from "@reach/router";
 class Movies extends Component {
   render() {
     const { data_mv, handelchange, search_value } = this.props;
-    console.log("data_mv", data_mv);
 
     return (
       <ul>
@@ -44,11 +43,22 @@ class Movies extends Component {
                   </Link>
                 </div>
                 <br />
-                <br />
-                <br />
 
                 <div>{movie.overview}</div>
-                <br />
+                <div className="button_circular">
+                  <button class="ui circular facebook icon button">
+                    <i class="facebook icon" />
+                  </button>
+                  <button class="ui circular twitter icon button">
+                    <i class="twitter icon" />
+                  </button>
+                  <button class="ui circular linkedin icon button">
+                    <i class="linkedin icon" />
+                  </button>
+                  <button class="ui circular google plus icon button">
+                    <i class="google plus icon" />
+                  </button>
+                </div>
               </div>
             </div>
           </li>

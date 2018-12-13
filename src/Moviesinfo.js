@@ -15,6 +15,7 @@ class Moviesinfo extends Component {
     );
     let data_auth = await response.json();
 
+    console.log("movies_data_auth", data_auth);
     this.setState({
       data_mv_auth: data_auth,
       data_mv_auth_info: data_auth.production_companies
@@ -22,13 +23,17 @@ class Moviesinfo extends Component {
   }
 
   render() {
-    let movie;
+    let movie, i;
     const { movies, id } = this.props;
     const { data_mv_auth, data_mv_auth_info } = this.state;
+
+    console.log("data_mv_authhhhhhhh", data_mv_auth_info);
 
     /* select movie from movies with the same id(from target value in app.js) */
 
     movie = movies.filter(item => item.id === +id)[0];
+    console.log("movies", movies);
+    console.log("movie", movie);
     if (!movie || !movie.id) return <div>...</div>;
 
     return (
@@ -58,10 +63,32 @@ class Moviesinfo extends Component {
                 <br />
                 <div>{data_mv_auth.overview}</div>
                 <br />
-                <button className="button_info" />{" "}
-                <button className="button_info" />{" "}
-                <button className="button_info" />{" "}
-                <button className="button_info" />
+
+                <button class="ui circular facebook icon button">
+                  <i class="facebook icon" />
+                </button>
+                <button class="ui circular twitter icon button">
+                  <i class="twitter icon" />
+                </button>
+                <button class="ui circular linkedin icon button">
+                  <i class="linkedin icon" />
+                </button>
+                <button class="ui circular google plus icon button">
+                  <i class="google plus icon" />
+                </button>
+
+                <div class="ui labeled button" tabindex="0">
+                  <div class="ui red button">
+                    <i class="heart icon" /> Like
+                  </div>
+                  <a class="ui basic red left pointing label">1,048</a>
+                </div>
+                <div class="ui labeled button" tabindex="0">
+                  <div class="ui basic blue button">
+                    <i class="fork icon" /> Forks
+                  </div>
+                  <a class="ui basic left pointing blue label">1,048</a>
+                </div>
                 <br />
               </div>
 
