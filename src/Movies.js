@@ -46,17 +46,17 @@ class Movies extends Component {
 
                 <div>{movie.overview}</div>
                 <div className="button_circular">
-                  <button class="ui circular facebook icon button">
-                    <i class="facebook icon" />
+                  <button className="ui circular facebook icon button">
+                    <i className="facebook icon" />
                   </button>
-                  <button class="ui circular twitter icon button">
-                    <i class="twitter icon" />
+                  <button className="ui circular twitter icon button">
+                    <i className="twitter icon" />
                   </button>
-                  <button class="ui circular linkedin icon button">
-                    <i class="linkedin icon" />
+                  <button className="ui circular linkedin icon button">
+                    <i className="linkedin icon" />
                   </button>
-                  <button class="ui circular google plus icon button">
-                    <i class="google plus icon" />
+                  <button className="ui circular google plus icon button">
+                    <i className="google plus icon" />
                   </button>
                 </div>
               </div>

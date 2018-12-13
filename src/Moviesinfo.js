@@ -64,30 +64,30 @@ class Moviesinfo extends Component {
                 <div>{data_mv_auth.overview}</div>
                 <br />
 
-                <button class="ui circular facebook icon button">
-                  <i class="facebook icon" />
+                <button className="ui circular facebook icon button">
+                  <i className="facebook icon" />
                 </button>
-                <button class="ui circular twitter icon button">
-                  <i class="twitter icon" />
+                <button className="ui circular twitter icon button">
+                  <i className="twitter icon" />
                 </button>
-                <button class="ui circular linkedin icon button">
-                  <i class="linkedin icon" />
+                <button className="ui circular linkedin icon button">
+                  <i className="linkedin icon" />
                 </button>
-                <button class="ui circular google plus icon button">
-                  <i class="google plus icon" />
+                <button className="ui circular google plus icon button">
+                  <i className="google plus icon" />
                 </button>
 
-                <div class="ui labeled button" tabindex="0">
-                  <div class="ui red button">
-                    <i class="heart icon" /> Like
+                <div className="ui labeled button" tabIndex="0">
+                  <div className="ui red button">
+                    <i className="heart icon" /> Like
                   </div>
-                  <a class="ui basic red left pointing label">1,048</a>
+                  <a className="ui basic red left pointing label">1,048</a>
                 </div>
-                <div class="ui labeled button" tabindex="0">
-                  <div class="ui basic blue button">
-                    <i class="fork icon" /> Forks
+                <div className="ui labeled button" tabIndex="0">
+                  <div className="ui basic blue button">
+                    <i className="fork icon" /> Forks
                   </div>
-                  <a class="ui basic left pointing blue label">1,048</a>
+                  <a className="ui basic left pointing blue label">1,048</a>
                 </div>
                 <br />
               </div>
@@ -97,10 +97,11 @@ class Moviesinfo extends Component {
           </li>
         </ul>
         {/*displaing production_companies*/}
-        {data_mv_auth_info.map(item => (
-          <ul className="ul_info1">
+
+        <ul className="ul_info1">
+          {data_mv_auth_info.map((item, index) => (
             <li
-              key={item.id}
+              key={index}
               className="li_info1"
               style={{
                 background: `url(${this.props.picture +
@@ -113,7 +114,6 @@ class Moviesinfo extends Component {
                     className="img_info1"
                     src={this.props.picture + item.logo_path}
                     alt={item.picture}
-                    key={item.id}
                   />
                 </div>
                 <br />
@@ -128,8 +128,8 @@ class Moviesinfo extends Component {
                 <div />
               </div>
             </li>
-          </ul>
-        ))}
+          ))}
+        </ul>
       </div>
     );
   }
