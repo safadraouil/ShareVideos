@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
 import "./Moviesinfo.css";
+import { connect } from "react-redux";
 
 class Moviesinfo extends Component {
   state = {
@@ -15,7 +16,6 @@ class Moviesinfo extends Component {
     );
     let data_auth = await response.json();
 
-    console.log("movies_data_auth", data_auth);
     this.setState({
       data_mv_auth: data_auth,
       data_mv_auth_info: data_auth.production_companies
@@ -135,4 +135,11 @@ class Moviesinfo extends Component {
   }
 }
 
-export default Moviesinfo;
+//redux configuration:
+const mapStateToProps = state => {
+  return {
+    movies: state.childReducer.data_mv
+  };
+};
+
+export default connect(mapStateToProps)(Moviesinfo);

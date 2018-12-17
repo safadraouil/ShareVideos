@@ -5,52 +5,53 @@ import Moviesinfo from "./Moviesinfo";
 import "semantic-ui-css/semantic.min.css";
 import "./App.css";
 import { Router } from "@reach/router";
+import { connect } from "react-redux";
+import { setMovies } from "./actions/moviesActions";
+import { isEqual } from "lodash";
 
 const KEY = "9209bb756d7b55053d4c72ffd1f9ecc8";
 const API = `https://api.themoviedb.org/3/movie/popular?api_key=${KEY}&language=en-US&page=1%60`;
-
 const PICTURE = `https://image.tmdb.org/t/p/w300_and_h450_bestv2/`;
 
 class App extends Component {
   state = {
     result: "",
     data_mv_all: [],
-    data_mv: [],
+    filtred_movies: [],
     code_key: "",
     search_value: ""
   };
   /* return data from api in componentDidMount*/
 
   async componentDidMount() {
-    /*  fetch(API)
-  .then(response=>response.json())
-      .then(data => this.setState({data_mv : data.slice(0,10) }))*/
-
-    let response = await fetch(API);
-    let data = await response.json();
-
-    this.setState({
-      data_mv: data.results.slice(0, 10),
-      data_mv_all: data.results.slice(0, 10)
-    });
+    const response = await fetch(API);
+    const movies = await response.json();
+    this.props.setMovies(movies.results.slice(0, 10));
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(nextProps.data_mv, this.props.data_mv)) {
+      this.setState({
+        filtred_movies: nextProps.data_mv
+      });
+    }
+  }
   /* return movies whene title equal input string  */
   handelchange(e) {
     let { value } = e.target;
-    let { data_mv_all } = this.state;
-    let data_mv_res = data_mv_all.filter(
+    let { data_mv } = this.props;
+    let data_mv_res = data_mv.filter(
       obj =>
         obj.title.toLowerCase().includes(value.toLowerCase()) ||
         obj.overview.toLowerCase().includes(value.toLowerCase())
     );
 
     /* search_value : to send id in the props  */
-    this.setState({ data_mv: data_mv_res, search_value: value });
+    this.setState({ filtred_movies: data_mv_res, search_value: value });
   }
   render() {
-    const { search_value, data_mv, data_mv_all } = this.state;
-
+    const { search_value, filtred_movies } = this.state;
+    // const { data_mv } = this.props;
     return (
       <div className="App">
         <Router>
@@ -60,21 +61,34 @@ class App extends Component {
           <Movies
             path="/"
             search_value={search_value}
-            data_mv={data_mv}
+            data_mv={filtred_movies}
             handelchange={e => this.handelchange(e)}
             picture={PICTURE}
           />
           <Hello path="Hello/:id" />
 
-          <Moviesinfo
-            path="Moviesinfo/:id"
-            movies={data_mv_all}
-            picture={PICTURE}
-          />
+          <Moviesinfo path="Moviesinfo/:id" picture={PICTURE} />
+          {/* <Cart /> */}
         </Router>{" "}
       </div>
     );
   }
 }
 
-export default App;
+//redux configuration:
+const mapStateToProps = state => {
+  return {
+    data_mv: state.childReducer.data_mv
+  };
+};
+//
+const mapDispatchToProps = dispatch => {
+  return {
+    setMovies: data_mv => dispatch(setMovies(data_mv))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
