@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import Movies from "./Movies";
 import Hello from "./Hello";
 import Moviesinfo from "./Moviesinfo";
@@ -6,7 +7,7 @@ import "semantic-ui-css/semantic.min.css";
 import "./App.css";
 import { Router } from "@reach/router";
 import { connect } from "react-redux";
-import { setMovies } from "./actions/moviesActions";
+import { setMovies, handelchange_action_comp } from "./actions/moviesActions";
 import { isEqual } from "lodash";
 
 const KEY = "9209bb756d7b55053d4c72ffd1f9ecc8";
@@ -14,9 +15,14 @@ const API = `https://api.themoviedb.org/3/movie/popular?api_key=${KEY}&language=
 const PICTURE = `https://image.tmdb.org/t/p/w300_and_h450_bestv2/`;
 
 class App extends Component {
+  static propTypes = {
+    data_mv: PropTypes.array.isRequired,
+    data_mv_res: PropTypes.array.isRequired,
+    setMovies: PropTypes.func.isRequired,
+    handelchange: PropTypes.func.isRequired
+  };
+
   state = {
-    result: "",
-    data_mv_all: [],
     filtred_movies: [],
     code_key: "",
     search_value: ""
@@ -45,9 +51,16 @@ class App extends Component {
         obj.title.toLowerCase().includes(value.toLowerCase()) ||
         obj.overview.toLowerCase().includes(value.toLowerCase())
     );
+    /*pass a value to recducer */
+
+    this.props.handelchange_app(value);
 
     /* search_value : to send id in the props  */
-    this.setState({ filtred_movies: data_mv_res, search_value: value });
+
+    this.setState({
+      filtred_movies: data_mv_res,
+      search_value: value
+    });
   }
   render() {
     const { search_value, filtred_movies } = this.state;
@@ -78,13 +91,18 @@ class App extends Component {
 //redux configuration:
 const mapStateToProps = state => {
   return {
-    data_mv: state.childReducer.data_mv
+    data_mv: state.childReducer.data_mv,
+    data_mv_res: state.childReducer.data_mv_res
   };
 };
 //
 const mapDispatchToProps = dispatch => {
   return {
-    setMovies: data_mv => dispatch(setMovies(data_mv))
+    setMovies: data_mv => dispatch(setMovies(data_mv)),
+    /*pass a filter movies to recducer */
+    handelchange_app(value) {
+      dispatch(handelchange_action_comp(value));
+    }
   };
 };
 

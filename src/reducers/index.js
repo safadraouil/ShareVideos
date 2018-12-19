@@ -2,10 +2,12 @@
  * src/reducers/index.js
  */
 
-import { combineReducers } from "redux";
+import { combineReducers, compose, applyMiddleware } from "redux";
 import childReducer from "./childReducer";
 import { createStore } from "redux";
+//import thunk from "redux-thunk";
 //import and add more child reducers as your project builds.
+
 const rootReducer = combineReducers({
   childReducer
 });

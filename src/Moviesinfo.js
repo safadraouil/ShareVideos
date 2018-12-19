@@ -2,11 +2,22 @@ import React, { Component } from "react";
 import { Link } from "@reach/router";
 import "./Moviesinfo.css";
 import { connect } from "react-redux";
+import { handelclick_favorit } from "./actions/moviesActions";
+import { Icon } from "semantic-ui-react";
 
 class Moviesinfo extends Component {
   state = {
     data_mv_auth: [],
-    data_mv_auth_info: []
+    data_mv_auth_info: [],
+
+    delete_from_favorit_movies: [],
+    value: {},
+    className: "star outline icon",
+    movie:
+      (this.props.movies &&
+        this.props.id &&
+        this.props.movies.filter(item => item.id === +this.props.id)) ||
+      []
   };
   async componentDidMount() {
     let response = await fetch(
@@ -22,18 +33,41 @@ class Moviesinfo extends Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.id !== this.props.id ||
+      (nextProps.movies && !this.props.movies)
+    )
+      this.setState({
+        movie:
+          (nextProps.movies &&
+            nextProps.id &&
+            nextProps.movies.filter(item => item.id === +nextProps.id)) ||
+          []
+      });
+  }
+
+  handelclick() {
+    let { favorit_movies, id } = this.props;
+    let favorit_movies_props = favorit_movies;
+    if (favorit_movies && favorit_movies.includes(id)) {
+      favorit_movies_props = this.props.favorit_movies.filter(
+        item => item !== id
+      );
+    } else {
+      favorit_movies_props.push(id);
+    }
+    this.props.handelclick_favorit(favorit_movies_props);
+  }
+
   render() {
-    let movie, i;
-    const { movies, id } = this.props;
-    const { data_mv_auth, data_mv_auth_info } = this.state;
-
-    console.log("data_mv_authhhhhhhh", data_mv_auth_info);
-
+    const { id, favorit_movies } = this.props;
+    const { data_mv_auth, data_mv_auth_info, movie: movieArray } = this.state;
+    let movie = movieArray[0];
     /* select movie from movies with the same id(from target value in app.js) */
 
-    movie = movies.filter(item => item.id === +id)[0];
-    console.log("movies", movies);
-    console.log("movie", movie);
+    console.log("favorit_movies", favorit_movies);
+    console.log("id", id);
     if (!movie || !movie.id) return <div>...</div>;
 
     return (
@@ -42,14 +76,16 @@ class Moviesinfo extends Component {
         <ul className="ul1">
           <li key={data_mv_auth.id} className="li1">
             <div className="card1">
-              <div>
-                <img
-                  className="img1"
-                  src={this.props.picture + data_mv_auth.poster_path}
-                  alt={data_mv_auth.title}
-                  key={data_mv_auth.id}
-                />
-              </div>
+              {data_mv_auth.poster_path ? (
+                <div>
+                  <img
+                    className="img1"
+                    src={this.props.picture + data_mv_auth.poster_path}
+                    alt={data_mv_auth.title}
+                    key={data_mv_auth.id}
+                  />
+                </div>
+              ) : null}
 
               <div className="text1">
                 <div>
@@ -62,7 +98,17 @@ class Moviesinfo extends Component {
                 <br />
                 <br />
                 <div>{data_mv_auth.overview}</div>
+                <i />
                 <br />
+
+                <Icon
+                  name={
+                    this.props.favorit_movies.includes(this.props.id)
+                      ? "star"
+                      : "star outline"
+                  }
+                  onClick={e => this.handelclick(e)}
+                />
 
                 <button className="ui circular facebook icon button">
                   <i className="facebook icon" />
@@ -99,36 +145,38 @@ class Moviesinfo extends Component {
         {/*displaing production_companies*/}
 
         <ul className="ul_info1">
-          {data_mv_auth_info.map((item, index) => (
-            <li
-              key={index}
-              className="li_info1"
-              style={{
+          {data_mv_auth_info.map((item, index) =>
+            item.logo_path ? (
+              <li
+                key={index}
+                className="li_info1"
+                /* style={{
                 background: `url(${this.props.picture +
                   data_mv_auth.backdrop_path})`
-              }}
-            >
-              <div className="card_info1">
-                <div>
-                  <img
-                    className="img_info1"
-                    src={this.props.picture + item.logo_path}
-                    alt={item.picture}
-                  />
-                </div>
-                <br />
-                <div className="text_info1">
-                  <h2>{item.name}</h2>
+              }} */
+              >
+                <div className="card_info1">
+                  <div>
+                    <img
+                      className="img_info1"
+                      src={this.props.picture + item.logo_path}
+                      alt={item.picture}
+                    />
+                  </div>
                   <br />
+                  <div className="text_info1">
+                    <h2>{item.name}</h2>
+                    <br />
 
-                  <div>origin_country: {item.origin_country}</div>
-                  <br />
+                    <div>origin_country: {item.origin_country}</div>
+                    <br />
+                  </div>
+
+                  <div />
                 </div>
-
-                <div />
-              </div>
-            </li>
-          ))}
+              </li>
+            ) : null
+          )}
         </ul>
       </div>
     );
@@ -138,8 +186,19 @@ class Moviesinfo extends Component {
 //redux configuration:
 const mapStateToProps = state => {
   return {
-    movies: state.childReducer.data_mv
+    movies: state.childReducer.data_mv,
+    favorit_movies: state.childReducer.favorit_movies
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    handelclick_favorit(favorit_movies) {
+      dispatch(handelclick_favorit(favorit_movies));
+    }
   };
 };
 
-export default connect(mapStateToProps)(Moviesinfo);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Moviesinfo);
