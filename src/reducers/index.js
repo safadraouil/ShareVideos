@@ -2,7 +2,7 @@
  * src/reducers/index.js
  */
 
-import { combineReducers, compose, applyMiddleware } from "redux";
+import { combineReducers } from "redux";
 import childReducer from "./childReducer";
 import { createStore } from "redux";
 //import thunk from "redux-thunk";

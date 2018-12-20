@@ -3,16 +3,29 @@ import { Link } from "@reach/router";
 import "./Moviesinfo.css";
 import { connect } from "react-redux";
 import { handelclick_favorit } from "./actions/moviesActions";
-import { Icon } from "semantic-ui-react";
+//import { Icon } from "semantic-ui-react";
+import { isEqual } from "lodash";
+import MoviesInfoIconnes from "./MoviesInfoIconnes";
+import { stringify } from "querystring";
+import PropTypes from "prop-types";
 
 class Moviesinfo extends Component {
+  static propTypes = {
+    favorit_movies: PropTypes.array.isrequired,
+    id: PropTypes.string.isrequired,
+    movies: PropTypes.object.isrequired,
+    handelclick_favorit: PropTypes.func.isrequired,
+    picture: PropTypes.string.isrequired
+  };
+
   state = {
     data_mv_auth: [],
     data_mv_auth_info: [],
-
+    classe_name: this.props.favorit_movies.includes(this.props.id)
+      ? "star"
+      : "star outline",
     delete_from_favorit_movies: [],
     value: {},
-    className: "star outline icon",
     movie:
       (this.props.movies &&
         this.props.id &&
@@ -45,11 +58,23 @@ class Moviesinfo extends Component {
             nextProps.movies.filter(item => item.id === +nextProps.id)) ||
           []
       });
+
+    // Check when favorite movie change
+    let { favorit_movies, id } = this.props;
+    let { favorit_movies: nextFavorit_movies } = nextProps;
+    let classe_name;
+
+    if (!isEqual(favorit_movies, nextFavorit_movies)) {
+      nextFavorit_movies.includes(id)
+        ? (classe_name = "star")
+        : (classe_name = "star outline");
+      this.setState({ classe_name });
+    }
   }
 
   handelclick() {
     let { favorit_movies, id } = this.props;
-    let favorit_movies_props = favorit_movies;
+    let favorit_movies_props = [...favorit_movies];
     if (favorit_movies && favorit_movies.includes(id)) {
       favorit_movies_props = this.props.favorit_movies.filter(
         item => item !== id
@@ -58,11 +83,17 @@ class Moviesinfo extends Component {
       favorit_movies_props.push(id);
     }
     this.props.handelclick_favorit(favorit_movies_props);
+    // this.componentWilfavorit_movies
   }
 
   render() {
     const { id, favorit_movies } = this.props;
-    const { data_mv_auth, data_mv_auth_info, movie: movieArray } = this.state;
+    const {
+      data_mv_auth,
+      data_mv_auth_info,
+      movie: movieArray,
+      classe_name
+    } = this.state;
     let movie = movieArray[0];
     /* select movie from movies with the same id(from target value in app.js) */
 
@@ -101,40 +132,11 @@ class Moviesinfo extends Component {
                 <i />
                 <br />
 
-                <Icon
-                  name={
-                    this.props.favorit_movies.includes(this.props.id)
-                      ? "star"
-                      : "star outline"
-                  }
-                  onClick={e => this.handelclick(e)}
+                <MoviesInfoIconnes
+                  handelclick={e => this.handelclick(e)}
+                  name={classe_name}
                 />
 
-                <button className="ui circular facebook icon button">
-                  <i className="facebook icon" />
-                </button>
-                <button className="ui circular twitter icon button">
-                  <i className="twitter icon" />
-                </button>
-                <button className="ui circular linkedin icon button">
-                  <i className="linkedin icon" />
-                </button>
-                <button className="ui circular google plus icon button">
-                  <i className="google plus icon" />
-                </button>
-
-                <div className="ui labeled button" tabIndex="0">
-                  <div className="ui red button">
-                    <i className="heart icon" /> Like
-                  </div>
-                  <a className="ui basic red left pointing label">1,048</a>
-                </div>
-                <div className="ui labeled button" tabIndex="0">
-                  <div className="ui basic blue button">
-                    <i className="fork icon" /> Forks
-                  </div>
-                  <a className="ui basic left pointing blue label">1,048</a>
-                </div>
                 <br />
               </div>
 
