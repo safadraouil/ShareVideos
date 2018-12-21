@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { handelclick_favorit } from "./actions/moviesActions";
 import MoviesInfoIconnes from "./MoviesInfoIconnes";
 import PropTypes from "prop-types";
+import { Icon } from "semantic-ui-react";
 
 class Moviesinfo extends Component {
   static propTypes = {
@@ -101,6 +102,15 @@ class Moviesinfo extends Component {
                 />
 
                 <br />
+              </div>
+              <div>
+                {" "}
+                <Link to="/Moviesinfo/424783">
+                  <Icon name="step backward" />
+                </Link>
+                <Link to="/">
+                  <Icon name="step forward" />
+                </Link>
               </div>
 
               <div />
