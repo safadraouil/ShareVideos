@@ -3,34 +3,21 @@ import { Link } from "@reach/router";
 import "./Moviesinfo.css";
 import { connect } from "react-redux";
 import { handelclick_favorit } from "./actions/moviesActions";
-//import { Icon } from "semantic-ui-react";
-import { isEqual } from "lodash";
 import MoviesInfoIconnes from "./MoviesInfoIconnes";
-import { stringify } from "querystring";
 import PropTypes from "prop-types";
 
 class Moviesinfo extends Component {
   static propTypes = {
-    favorit_movies: PropTypes.array.isrequired,
-    id: PropTypes.string.isrequired,
-    movies: PropTypes.object.isrequired,
-    handelclick_favorit: PropTypes.func.isrequired,
-    picture: PropTypes.string.isrequired
+    favorit_movies: PropTypes.array,
+    id: PropTypes.string,
+    movies: PropTypes.array,
+    handelclick_favorit: PropTypes.func,
+    picture: PropTypes.string
   };
 
   state = {
     data_mv_auth: [],
-    data_mv_auth_info: [],
-    classe_name: this.props.favorit_movies.includes(this.props.id)
-      ? "star"
-      : "star outline",
-    delete_from_favorit_movies: [],
-    value: {},
-    movie:
-      (this.props.movies &&
-        this.props.id &&
-        this.props.movies.filter(item => item.id === +this.props.id)) ||
-      []
+    data_mv_auth_info: []
   };
   async componentDidMount() {
     let response = await fetch(
@@ -46,7 +33,7 @@ class Moviesinfo extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
+  /*componentWillReceiveProps(nextProps) {
     if (
       nextProps.id !== this.props.id ||
       (nextProps.movies && !this.props.movies)
@@ -58,48 +45,24 @@ class Moviesinfo extends Component {
             nextProps.movies.filter(item => item.id === +nextProps.id)) ||
           []
       });
-
-    // Check when favorite movie change
-    let { favorit_movies, id } = this.props;
-    let { favorit_movies: nextFavorit_movies } = nextProps;
-    let classe_name;
-
-    if (!isEqual(favorit_movies, nextFavorit_movies)) {
-      nextFavorit_movies.includes(id)
-        ? (classe_name = "star")
-        : (classe_name = "star outline");
-      this.setState({ classe_name });
-    }
-  }
+  }*/
 
   handelclick() {
-    let { favorit_movies, id } = this.props;
-    let favorit_movies_props = [...favorit_movies];
-    if (favorit_movies && favorit_movies.includes(id)) {
-      favorit_movies_props = this.props.favorit_movies.filter(
-        item => item !== id
-      );
-    } else {
-      favorit_movies_props.push(id);
-    }
-    this.props.handelclick_favorit(favorit_movies_props);
-    // this.componentWilfavorit_movies
+    let { id } = this.props;
+    this.props.handelclick_favorit(id);
   }
 
   render() {
-    const { id, favorit_movies } = this.props;
-    const {
-      data_mv_auth,
-      data_mv_auth_info,
-      movie: movieArray,
-      classe_name
-    } = this.state;
-    let movie = movieArray[0];
+    const { data_mv_auth, data_mv_auth_info } = this.state;
+    const { favorit_movies, id, movies } = this.props;
+
+    let movieFilter =
+      (movies && id && movies.filter(item => item.id === +this.props.id)) || [];
+    let movie = (movieFilter.length && movieFilter[0]) || {};
+
     /* select movie from movies with the same id(from target value in app.js) */
 
-    console.log("favorit_movies", favorit_movies);
-    console.log("id", id);
-    if (!movie || !movie.id) return <div>...</div>;
+    if (!movie || !movie.id) return <div>Loading ...</div>;
 
     return (
       <div>
@@ -134,7 +97,7 @@ class Moviesinfo extends Component {
 
                 <MoviesInfoIconnes
                   handelclick={e => this.handelclick(e)}
-                  name={classe_name}
+                  name={favorit_movies.includes(id) ? "star" : "star outline"}
                 />
 
                 <br />
@@ -149,14 +112,7 @@ class Moviesinfo extends Component {
         <ul className="ul_info1">
           {data_mv_auth_info.map((item, index) =>
             item.logo_path ? (
-              <li
-                key={index}
-                className="li_info1"
-                /* style={{
-                background: `url(${this.props.picture +
-                  data_mv_auth.backdrop_path})`
-              }} */
-              >
+              <li key={index} className="li_info1">
                 <div className="card_info1">
                   <div>
                     <img
@@ -194,8 +150,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    handelclick_favorit(favorit_movies) {
-      dispatch(handelclick_favorit(favorit_movies));
+    handelclick_favorit(id) {
+      dispatch(handelclick_favorit(id));
     }
   };
 };

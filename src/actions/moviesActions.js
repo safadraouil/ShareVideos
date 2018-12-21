@@ -16,7 +16,12 @@ export const handelchange_action_comp = value => ({
   type: "SET_ACTION_TYPE_VALUE",
   data: value
 });
-export const handelclick_favorit = data_mv_favorit => ({
+export const handelclick_favorit = id => ({
   type: "SET_ACTION_TYPE_DATA_FAVORIT",
-  data: data_mv_favorit
+  data: id
 });
+/*
+export const handelclick_favorit_list = id => ({
+  type: "SET_ACTION_TYPE_DATA_FAVORIT_LIST",
+  data: id
+});*/

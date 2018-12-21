@@ -44,12 +44,12 @@ text {
 .input {
   margin-top: 2%;
   margin-bottom: 3%;
-  margin-left: 5%;
+  margin-left: 0%;
   border-radius: 60px;
   height: 40px;
   text-align: center;
   color: #678;
-  width: 90%;
+  width: 85%;
 }
 ul {
   list-style-type: none;

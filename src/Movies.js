@@ -1,15 +1,35 @@
 import React, { Component } from "react";
-// import '../semantic/dist/semantic.min.css';
-import "semantic-ui-css/semantic.min.css";
+import { Icon } from "semantic-ui-react";
 import "./Movies.css";
 import { Link } from "@reach/router";
+import PropTypes from "prop-types";
+
+import Modalfavoriteliste from "./Modalfavoriteliste";
 
 class Movies extends Component {
+  static propTypes = {
+    data_mv: PropTypes.array,
+    handelchange: PropTypes.func,
+    search_value: PropTypes.string
+  };
+
+  state = { show: false, favorit_movies: [] };
+  toggelModal = () => {
+    this.setState({ show: !this.state.show });
+  };
   render() {
     const { data_mv, handelchange, search_value } = this.props;
 
     return (
       <ul>
+        <Modalfavoriteliste
+          show={this.state.show}
+          toggelModal={this.toggelModal}
+        />
+        <div>
+          <Icon disabled name="list" onClick={this.toggelModal} />
+        </div>
+
         {/*input search movies*/}
         <input
           className="input"

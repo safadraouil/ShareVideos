@@ -19,20 +19,27 @@ export const childReducer = (state = { favorit_movies: [] }, action) => {
       return newState;
 
     case "SET_ACTION_TYPE_DATA_FAVORIT":
-      newState = Object.assign({}, state, {
-        favorit_movies: action.data
-      });
-      console.log("newState", newState);
+      newState = Object.assign({}, state);
+
+      if (typeof action.data !== "string") action.data = `${action.data}`;
+      let favorit_movies_props = [...newState.favorit_movies];
+      if (
+        newState.favorit_movies &&
+        newState.favorit_movies.includes(action.data)
+      ) {
+        favorit_movies_props = newState.favorit_movies.filter(
+          item => item !== action.data
+        );
+      } else {
+        favorit_movies_props.push(action.data);
+      }
+
+      newState.favorit_movies = favorit_movies_props;
       return newState;
 
-    //define more cases as your project builds.
     default:
       return state;
   }
 };
 
 export default childReducer;
-/*
-Text("childReducer", () => {
-  expect(childReducer("data_mv", { type: "SET_ACTION_TYPE", data: "data_mv" }));
-}).toBe("data_mv");*/

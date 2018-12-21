@@ -15,13 +15,6 @@ const API = `https://api.themoviedb.org/3/movie/popular?api_key=${KEY}&language=
 const PICTURE = `https://image.tmdb.org/t/p/w300_and_h450_bestv2/`;
 
 class App extends Component {
-  static propTypes = {
-    data_mv: PropTypes.array.isRequired,
-    data_mv_res: PropTypes.array.isRequired,
-    setMovies: PropTypes.func.isRequired,
-    handelchange: PropTypes.func.isRequired
-  };
-
   state = {
     filtred_movies: [],
     code_key: "",
@@ -104,6 +97,13 @@ const mapDispatchToProps = dispatch => {
       dispatch(handelchange_action_comp(value));
     }
   };
+};
+
+App.propTypes = {
+  data_mv: PropTypes.array,
+  data_mv_res: PropTypes.array,
+  setMovies: PropTypes.func,
+  handelchange: PropTypes.func
 };
 
 export default connect(
