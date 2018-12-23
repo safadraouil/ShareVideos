@@ -18,7 +18,9 @@ class Moviesinfo extends Component {
 
   state = {
     data_mv_auth: [],
-    data_mv_auth_info: []
+    data_mv_auth_info: [],
+  nextId :"",
+ backid :""
   };
   async componentDidMount() {
     let response = await fetch(
@@ -34,28 +36,39 @@ class Moviesinfo extends Component {
     });
   }
 
-  /*componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (
-      nextProps.id !== this.props.id ||
-      (nextProps.movies && !this.props.movies)
-    )
-      this.setState({
-        movie:
-          (nextProps.movies &&
-            nextProps.id &&
-            nextProps.movies.filter(item => item.id === +nextProps.id)) ||
-          []
-      });
-  }*/
+      nextProps.nextId === this.state.nextId  || nextProps.backid === this.state.backid )
+      {
+        window.location.reload();
+         
+      };
+  }
 
   handelclick() {
     let { id } = this.props;
     this.props.handelclick_favorit(id);
   }
+ /* onckliknext() {
+      const { movies } = this.props;
+      //var { nextId,backid} = this.state;
+  for  ( var i =  0 ; i < movies.length ; i++ )
+  { if (movies[i].id === +this.props.id)
+ 
+  { var nextId1 = ((i+1 )<  movies.length )? movies[i+1].id: +this.props.id
+   var backid1= ((i-1) > 0)? movies[i-1].id: +this.props.id
+ }} 
+this.setState(this.state.nextId = nextId1,this.state.backid = backid1);
+}]*/
+  
+ 
 
   render() {
     const { data_mv_auth, data_mv_auth_info } = this.state;
     const { favorit_movies, id, movies } = this.props;
+    //const { nextId,backid} = this.state;
+   
+   
 
     let movieFilter =
       (movies && id && movies.filter(item => item.id === +this.props.id)) || [];
@@ -63,7 +76,19 @@ class Moviesinfo extends Component {
 
     /* select movie from movies with the same id(from target value in app.js) */
 
+
     if (!movie || !movie.id) return <div>Loading ...</div>;
+ 
+    for  ( var i =  0 ; i < movies.length ; i++ )
+    { if (movies[i].id === +this.props.id)
+   
+    { var nextId = ((i+1 )<  movies.length )? movies[i+1].id: +this.props.id
+     var backid = ((i-1) > 0)? movies[i-1].id: +this.props.id
+   }} 
+  
+
+
+    console.log( "movieoooos", this.nextId)
 
     return (
       <div>
@@ -103,18 +128,24 @@ class Moviesinfo extends Component {
 
                 <br />
               </div>
+              
+             
               <div>
-                {" "}
-                <Link to="/Moviesinfo/424783">
-                  <Icon name="step backward" />
+               
+              <Link to={`/Moviesinfo/${nextId }`} >
+              
+                  <Icon name="step backward" /*Onclick ={this.onckliknext()} */ />
+                  </Link> 
+                  </div>
+                <Link to={`/Moviesinfo/${backid  ? backid : +this.props.id}`} >
+                
+                  <Icon name="step forward"  /*Onclick ={this.onckliknext()} *//>
                 </Link>
-                <Link to="/">
-                  <Icon name="step forward" />
-                </Link>
-              </div>
-
-              <div />
+              
+             
             </div>
+
+      
           </li>
         </ul>
         {/*displaing production_companies*/}
