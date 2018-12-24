@@ -21,11 +21,10 @@ class Moviesinfo extends Component {
     nextId: "",
     backid: ""
   };
-  async componentDidMount() {
+
+  async fetchAPI(id) {
     let response = await fetch(
-      `https://api.themoviedb.org/3/movie/${
-        this.props.id
-      }?api_key=9209bb756d7b55053d4c72ffd1f9ecc8&language=en-US`
+      `https://api.themoviedb.org/3/movie/${id}?api_key=9209bb756d7b55053d4c72ffd1f9ecc8&language=en-US`
     );
     let data_auth = await response.json();
 
@@ -34,12 +33,15 @@ class Moviesinfo extends Component {
     });
   }
 
+  componentDidMount() {
+    const { id } = this.props;
+    this.fetchAPI(id);
+  }
+
   componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.nextId === this.state.nextId ||
-      nextProps.backid === this.state.backid
-    ) {
-      window.location.reload();
+    const { id } = this.props;
+    if (nextProps.id !== id) {
+      this.fetchAPI(nextProps.id);
     }
   }
 
