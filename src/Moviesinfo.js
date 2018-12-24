@@ -17,10 +17,9 @@ class Moviesinfo extends Component {
   };
 
   state = {
-    data_mv_auth: [],
     data_mv_auth_info: [],
-  nextId :"",
- backid :""
+    nextId: "",
+    backid: ""
   };
   async componentDidMount() {
     let response = await fetch(
@@ -31,44 +30,28 @@ class Moviesinfo extends Component {
     let data_auth = await response.json();
 
     this.setState({
-      data_mv_auth: data_auth,
       data_mv_auth_info: data_auth.production_companies
     });
   }
 
   componentWillReceiveProps(nextProps) {
     if (
-      nextProps.nextId === this.state.nextId  || nextProps.backid === this.state.backid )
-      {
-        window.location.reload();
-         
-      };
+      nextProps.nextId === this.state.nextId ||
+      nextProps.backid === this.state.backid
+    ) {
+      window.location.reload();
+    }
   }
 
   handelclick() {
     let { id } = this.props;
     this.props.handelclick_favorit(id);
   }
- /* onckliknext() {
-      const { movies } = this.props;
-      //var { nextId,backid} = this.state;
-  for  ( var i =  0 ; i < movies.length ; i++ )
-  { if (movies[i].id === +this.props.id)
- 
-  { var nextId1 = ((i+1 )<  movies.length )? movies[i+1].id: +this.props.id
-   var backid1= ((i-1) > 0)? movies[i-1].id: +this.props.id
- }} 
-this.setState(this.state.nextId = nextId1,this.state.backid = backid1);
-}]*/
-  
- 
 
   render() {
-    const { data_mv_auth, data_mv_auth_info } = this.state;
+    const { data_mv_auth_info } = this.state;
     const { favorit_movies, id, movies } = this.props;
     //const { nextId,backid} = this.state;
-   
-   
 
     let movieFilter =
       (movies && id && movies.filter(item => item.id === +this.props.id)) || [];
@@ -76,33 +59,28 @@ this.setState(this.state.nextId = nextId1,this.state.backid = backid1);
 
     /* select movie from movies with the same id(from target value in app.js) */
 
-
     if (!movie || !movie.id) return <div>Loading ...</div>;
- 
-    for  ( var i =  0 ; i < movies.length ; i++ )
-    { if (movies[i].id === +this.props.id)
-   
-    { var nextId = ((i+1 )<  movies.length )? movies[i+1].id: +this.props.id
-     var backid = ((i-1) > 0)? movies[i-1].id: +this.props.id
-   }} 
-  
 
-
-    console.log( "movieoooos", this.nextId)
+    for (var i = 0; i < movies.length; i++) {
+      if (movies[i].id === +this.props.id) {
+        var nextId = i + 1 < movies.length ? movies[i + 1].id : +this.props.id;
+        var backid = i - 1 >= 0 ? movies[i - 1].id : +this.props.id;
+      }
+    }
 
     return (
       <div>
         {/*displaing movie information card*/}
         <ul className="ul1">
-          <li key={data_mv_auth.id} className="li1">
+          <li key={movie.id} className="li1">
             <div className="card1">
-              {data_mv_auth.poster_path ? (
+              {movie.poster_path ? (
                 <div>
                   <img
                     className="img1"
-                    src={this.props.picture + data_mv_auth.poster_path}
-                    alt={data_mv_auth.title}
-                    key={data_mv_auth.id}
+                    src={this.props.picture + movie.poster_path}
+                    alt={movie.title}
+                    key={movie.id}
                   />
                 </div>
               ) : null}
@@ -110,14 +88,14 @@ this.setState(this.state.nextId = nextId1,this.state.backid = backid1);
               <div className="text1">
                 <div>
                   <Link to="/">
-                    <h2>{data_mv_auth.title}</h2>
+                    <h2>{movie.title}</h2>
                   </Link>
-                  <div>Puplish date : {data_mv_auth.release_date}</div>
+                  <div>Puplish date : {movie.release_date}</div>
                 </div>
                 <br />
                 <br />
                 <br />
-                <div>{data_mv_auth.overview}</div>
+                <div>{movie.overview}</div>
                 <i />
                 <br />
 
@@ -128,24 +106,16 @@ this.setState(this.state.nextId = nextId1,this.state.backid = backid1);
 
                 <br />
               </div>
-              
-             
-              <div>
-               
-              <Link to={`/Moviesinfo/${nextId }`} >
-              
-                  <Icon name="step backward" /*Onclick ={this.onckliknext()} */ />
-                  </Link> 
-                  </div>
-                <Link to={`/Moviesinfo/${backid  ? backid : +this.props.id}`} >
-                
-                  <Icon name="step forward"  /*Onclick ={this.onckliknext()} *//>
-                </Link>
-              
-             
-            </div>
 
-      
+              <div>
+                <Link to={`/Moviesinfo/${backid}`}>
+                  <Icon name="step backward" />
+                </Link>
+                <Link to={`/Moviesinfo/${nextId}`}>
+                  <Icon name="step forward" />
+                </Link>
+              </div>
+            </div>
           </li>
         </ul>
         {/*displaing production_companies*/}
