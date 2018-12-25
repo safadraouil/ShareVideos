@@ -13,7 +13,8 @@ class Moviesinfo extends Component {
     id: PropTypes.string,
     movies: PropTypes.array,
     handelclick_favorit: PropTypes.func,
-    picture: PropTypes.string
+    picture: PropTypes.string,
+    fetchAPI: PropTypes.func
   };
 
   state = {
@@ -33,18 +34,19 @@ class Moviesinfo extends Component {
     });
   }
 
+  /*upload data from api to displaing production_companies  in the first time after render */
   componentDidMount() {
     const { id } = this.props;
     this.fetchAPI(id);
   }
-
+  /*upload data from api to displaing production_companies  befor render and click button next and previous */
   componentWillReceiveProps(nextProps) {
     const { id } = this.props;
     if (nextProps.id !== id) {
       this.fetchAPI(nextProps.id);
     }
   }
-
+  /* add movie in favorit list */
   handelclick() {
     let { id } = this.props;
     this.props.handelclick_favorit(id);
@@ -62,7 +64,7 @@ class Moviesinfo extends Component {
     /* select movie from movies with the same id(from target value in app.js) */
 
     if (!movie || !movie.id) return <div>Loading ...</div>;
-
+    /* to find id of  next and previous movie*/
     for (var i = 0; i < movies.length; i++) {
       if (movies[i].id === +this.props.id) {
         var nextId = i + 1 < movies.length ? movies[i + 1].id : +this.props.id;
@@ -72,7 +74,7 @@ class Moviesinfo extends Component {
 
     return (
       <div>
-        {/*displaing movie information card*/}
+        {/*displaing movie information card from movies in the store*/}
         <ul className="ul1">
           <li key={movie.id} className="li1">
             <div className="card1">
@@ -108,7 +110,7 @@ class Moviesinfo extends Component {
 
                 <br />
               </div>
-
+              {/*   next and previous button */}
               <div>
                 <Link to={`/Moviesinfo/${backid}`}>
                   <Icon name="step backward" />
@@ -120,7 +122,7 @@ class Moviesinfo extends Component {
             </div>
           </li>
         </ul>
-        {/*displaing production_companies*/}
+        {/*displaing production_companies from this api */}
 
         <ul className="ul_info1">
           {data_mv_auth_info.map((item, index) =>

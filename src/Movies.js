@@ -3,22 +3,61 @@ import { Icon } from "semantic-ui-react";
 import "./Movies.css";
 import { Link } from "@reach/router";
 import PropTypes from "prop-types";
-
+import Filter from "./Filter";
 import Modalfavoriteliste from "./Modalfavoriteliste";
-
+import isEqual from "lodash/isEqual";
 class Movies extends Component {
   static propTypes = {
     data_mv: PropTypes.array,
+    FilterMovies: PropTypes.array,
     handelchange: PropTypes.func,
     search_value: PropTypes.string
   };
 
-  state = { show: false, favorit_movies: [] };
+  constructor(props) {
+    super(props);
+    this.state = {
+      show: false,
+      favorit_movies: [],
+      data_mv: this.props.data_mv
+    };
+    console.log("data.mv =========", props.data_mv);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.state.data_mv, nextProps.data_mv)) {
+      this.setState({ data_mv: nextProps.data_mv });
+    }
+  }
+
   toggelModal = () => {
     this.setState({ show: !this.state.show });
   };
+
+  handleChangeFilter(filter, date) {
+    console.log("thispropsdata_mv", this.props.data_mv);
+    console.log("-------------", filter, date);
+    var { data_mv } = this.state;
+
+    data_mv = data_mv.filter(item => {
+      if (filter === "from") {
+        return date <= item.release_date;
+      } else {
+        if (Filter === "to") {
+          return item.release_date <= date;
+        } else {
+          return data_mv;
+        }
+      }
+    });
+
+    this.setState({ data_mv });
+  }
   render() {
-    const { data_mv, handelchange, search_value } = this.props;
+    const { handelchange, search_value } = this.props;
+    var { data_mv } = this.state;
+
+    console.log("FilterMovies", data_mv);
 
     return (
       <ul>
@@ -26,7 +65,14 @@ class Movies extends Component {
           show={this.state.show}
           toggelModal={this.toggelModal}
         />
+        {/* button list favorit */}
         <div>
+          <Filter
+            handleChangeFilter={(filter, date) =>
+              this.handleChangeFilter(filter, date)
+            }
+          />
+
           <Icon disabled name="list" onClick={this.toggelModal} />
         </div>
 
@@ -39,6 +85,7 @@ class Movies extends Component {
           value={search_value}
         />
         {/*search movies from input movies*/}
+
         {data_mv &&
           data_mv.map(movie => (
             <li key={movie.id}>
@@ -61,6 +108,7 @@ class Movies extends Component {
                     <Link to={`/Moviesinfo/${movie.id}`}>
                       <h2>{movie.title}</h2>
                       <div>Puplish date : {movie.release_date}</div>
+                      {console.log("movie.release_date", movie.release_date)}
                     </Link>
                   </div>
                   <br />
