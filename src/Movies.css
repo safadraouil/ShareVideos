@@ -3,8 +3,8 @@
 }
 
 .card {
-  margin-top: 0%;
-  margin-left: 0%;
+  margin-top: 0;
+  margin-left: 0;
   height: 600px;
   width: 48%;
   position: relative;
@@ -36,24 +36,41 @@ text {
 
   size: 3em;
 }
+
 .button_circular {
   margin-top: 30%;
   float: right;
   position: relative;
 }
+
 .input {
   margin-top: 2%;
   margin-bottom: 3%;
-  margin-left: 0%;
+  margin-left: 0;
   border-radius: 60px;
   height: 40px;
   text-align: center;
   color: #678;
   width: 85%;
 }
+
 ul {
   list-style-type: none;
 }
+
 li {
   list-style-type: none;
+}
+
+.icon {
+  margin-right: 15px;
+  float: right;
+  position: relative;
+
+}
+
+.filter {
+  margin-right: 0;
+  float: right;
+  position: relative;
 }

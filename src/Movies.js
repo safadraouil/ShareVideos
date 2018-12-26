@@ -6,88 +6,115 @@ import PropTypes from "prop-types";
 import Filter from "./Filter";
 import Modalfavoriteliste from "./Modalfavoriteliste";
 import isEqual from "lodash/isEqual";
+import moment from "moment";
 class Movies extends Component {
+  FORMAT = "YYYY-MM-DD";
   static propTypes = {
     data_mv: PropTypes.array,
     FilterMovies: PropTypes.array,
     handelchange: PropTypes.func,
-    search_value: PropTypes.string
+    search_value: PropTypes.string,
+    filters: PropTypes.object
   };
 
   constructor(props) {
+    //call props
     super(props);
     this.state = {
       show: false,
       favorit_movies: [],
-      data_mv: this.props.data_mv
+      data_mv: this.props.data_mv,
+      filters: {
+        to: "",
+        from: ""
+      }
     };
-    console.log("data.mv =========", props.data_mv);
   }
-
+  // itialise array movies whene  change data_mv
   componentWillReceiveProps(nextProps) {
     if (!isEqual(this.state.data_mv, nextProps.data_mv)) {
       this.setState({ data_mv: nextProps.data_mv });
     }
   }
-
+  // call  children Modalfavoriteliste and switch from icon to show modal
   toggelModal = () => {
     this.setState({ show: !this.state.show });
   };
-
+  // chose date filter from datepicker ===> switch save date in the filters object
   handleChangeFilter(filter, date) {
-    console.log("thispropsdata_mv", this.props.data_mv);
-    console.log("-------------", filter, date);
-    var { data_mv } = this.state;
+    var { filters } = this.state;
+    if (filter === "to") {
+    }
 
-    data_mv = data_mv.filter(item => {
-      if (filter === "from") {
-        return date <= item.release_date;
-      } else {
-        if (Filter === "to") {
-          return item.release_date <= date;
-        } else {
-          return data_mv;
-        }
-      }
-    });
-
-    this.setState({ data_mv });
+    if (filter === "from") {
+      filters.from = date;
+      this.setState({ filters });
+    }
+    if (filter === "to") {
+      filters.to = date;
+      this.setState({ filters });
+    }
   }
+  //filter date realise  following input datepicker and call methode where initialise  data_mvFilter in render
+  doFilter(item, filters) {
+    let from = moment(filters.from).format(this.FORMAT);
+    let relasedata = moment(item.release_date).format(this.FORMAT);
+    let to = moment(filters.to).format(this.FORMAT);
+    if (relasedata > from && relasedata < to) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   render() {
-    const { handelchange, search_value } = this.props;
-    var { data_mv } = this.state;
+    const { handelchange, search_value, data_mv } = this.props;
+    var { filters } = this.state;
+    var data_mvFilter = data_mv;
 
-    console.log("FilterMovies", data_mv);
-
+    //initialise  data_mvFilter in render to show movies result befor and after filter
+    filters.from !== "" && filters.to !== ""
+      ? (data_mvFilter = data_mvFilter.filter(item =>
+          this.doFilter(item, filters)
+        ))
+      : (data_mvFilter = data_mv);
     return (
       <ul>
+        {/* show modal  */}
         <Modalfavoriteliste
           show={this.state.show}
           toggelModal={this.toggelModal}
         />
-        {/* button list favorit */}
-        <div>
+
+        {/*input search movies*/}
+
+        <div className="icon">
+          {/* button list favorit */}
+          {/* sent  "toggelModal" to moviesinfoiconnes to change visibility*/}
+          <Icon disabled name="list" onClick={this.toggelModal} />
           <Filter
             handleChangeFilter={(filter, date) =>
+              //take result { filter, datefrom }Filter (children) with methode handleChangeFilter sent from Filter
               this.handleChangeFilter(filter, date)
             }
           />
-
-          <Icon disabled name="list" onClick={this.toggelModal} />
+        </div>
+        {/*  dates pickers*/}
+        <div>
+          <input
+            className="input"
+            type="text"
+            placeholder="Search.."
+            onChange={e => handelchange(e)}
+            value={search_value}
+          />
         </div>
 
-        {/*input search movies*/}
-        <input
-          className="input"
-          type="text"
-          placeholder="Search.."
-          onChange={e => handelchange(e)}
-          value={search_value}
-        />
-        {/*search movies from input movies*/}
+        {/*filter movies*/}
 
-        {data_mv &&
-          data_mv.map(movie => (
+        {/*search movies from input movies */}
+        {data_mvFilter &&
+          data_mvFilter.map(movie => (
             <li key={movie.id}>
               <div className="card">
                 <div className="img">
@@ -108,7 +135,6 @@ class Movies extends Component {
                     <Link to={`/Moviesinfo/${movie.id}`}>
                       <h2>{movie.title}</h2>
                       <div>Puplish date : {movie.release_date}</div>
-                      {console.log("movie.release_date", movie.release_date)}
                     </Link>
                   </div>
                   <br />

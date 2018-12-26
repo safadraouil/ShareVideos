@@ -1,52 +1,52 @@
 import React from "react";
 import "./Datepiker.css";
-//import DayPicker from "react-day-picker";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-day-picker/lib/style.css";
 import dateFnsFormat from "date-fns/format";
+import PropTypes from "prop-types";
 
 import moment from "moment";
 
 class DatePiker extends React.Component {
-  FORMAT = "YYYY-DD-MM";
+  static propTypes = {
+    target: PropTypes.string,
+    dateFormat: PropTypes.date,
+    onDayChange: PropTypes.func
+  };
+  FORMAT = "YYYY-MM-DD";
   constructor(props) {
     super(props);
 
     this.state = {
       to: undefined,
-      from: undefined,
-
-      visible: true
+      from: undefined
     };
   }
-
+  // change value of date in datepicker
   handleDayChange(date, target) {
-    console.log("+++++", date);
-    console.log(target);
+    //change format date
     const dateFormat = moment(date).format(this.FORMAT);
     this.setState({ [target]: dateFormat });
-
+    // sent data ((target : to or from ) (date : dateFormat) )to movies ==>
     this.props.handleChangeFilter(target, dateFormat);
   }
 
-  /*handleDayChangeTo = day => {
-    this.setState({
-      to: moment(day).format("YYYY/DD/MM")
-    });
-
-    this.props.handleChangeFilter(moment(day).format("YYYY/DD/MM"));
-  };*/
   render() {
     return (
       <div>
+        {/*if click datepiker from */}
+        From: <br />
         <DayPickerInput
           format={this.FORMAT}
           placeholder={`${dateFnsFormat(new Date(), this.FORMAT)}`}
           onDayClick={this.handleDayClick}
+          //initialise  onDayChange to sent it to movies(props)
           onDayChange={date => this.handleDayChange(date, "from")}
           selectedDays={"from"}
         />
-
+        {/*if click datepiker to*/}
+        <br />
+        To: <br />
         <DayPickerInput
           format={this.FORMAT}
           placeholder={`${dateFnsFormat(new Date(), this.FORMAT)}`}
