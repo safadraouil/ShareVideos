@@ -14,7 +14,8 @@ class ModalFilterList extends React.Component {
     target: PropTypes.string,
     dateFormat: PropTypes.string,
     onDayChange: PropTypes.func,
-    showFilter: PropTypes.bool
+    showFilter: PropTypes.bool,
+    handleClickSearch: PropTypes.finc
   };
   FORMAT = "YYYY-MM-DD";
   constructor(props) {
