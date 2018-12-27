@@ -3,7 +3,7 @@ import { Icon } from "semantic-ui-react";
 import "./Movies.css";
 import { Link } from "@reach/router";
 import PropTypes from "prop-types";
-import Filter from "./Filter";
+import ModalFilterList from "./ModalFilterList";
 import Modalfavoriteliste from "./Modalfavoriteliste";
 import isEqual from "lodash/isEqual";
 import moment from "moment";
@@ -14,7 +14,9 @@ class Movies extends Component {
     FilterMovies: PropTypes.array,
     handelchange: PropTypes.func,
     search_value: PropTypes.string,
-    filters: PropTypes.object
+    filters: PropTypes.object,
+    showFilter: PropTypes.string,
+    show: PropTypes.string
   };
 
   constructor(props) {
@@ -22,6 +24,7 @@ class Movies extends Component {
     super(props);
     this.state = {
       show: false,
+      showFilter: false,
       favorit_movies: [],
       data_mv: this.props.data_mv,
       filters: {
@@ -40,11 +43,12 @@ class Movies extends Component {
   toggelModal = () => {
     this.setState({ show: !this.state.show });
   };
+  toggelModalFavorit = () => {
+    this.setState({ showFilter: !this.state.showFilter });
+  };
   // chose date filter from datepicker ===> switch save date in the filters object
   handleChangeFilter(filter, date) {
     var { filters } = this.state;
-    if (filter === "to") {
-    }
 
     if (filter === "from") {
       filters.from = date;
@@ -56,50 +60,69 @@ class Movies extends Component {
     }
   }
   //filter date realise  following input datepicker and call methode where initialise  data_mvFilter in render
-  doFilter(item, filters) {
-    let from = moment(filters.from).format(this.FORMAT);
+
+  doFilter(item, filters, field) {
+    let fieldValue = moment(filters[field]).format(this.FORMAT);
     let relasedata = moment(item.release_date).format(this.FORMAT);
-    let to = moment(filters.to).format(this.FORMAT);
-    if (relasedata > from && relasedata < to) {
-      return true;
-    } else {
-      return false;
-    }
+    return field === "from"
+      ? fieldValue && relasedata >= fieldValue
+      : fieldValue && relasedata <= fieldValue;
   }
 
+  /*ReturnTable(data_mvFilter, data_mv) {
+    if (data_mvFilter === []) {
+      return data_mvFilter;
+    } else {
+      return data_mv;
+    }
+  }*/
   render() {
     const { handelchange, search_value, data_mv } = this.props;
     var { filters } = this.state;
     var data_mvFilter = data_mv;
 
     //initialise  data_mvFilter in render to show movies result befor and after filter
-    filters.from !== "" && filters.to !== ""
-      ? (data_mvFilter = data_mvFilter.filter(item =>
-          this.doFilter(item, filters)
-        ))
-      : (data_mvFilter = data_mv);
+    if (data_mvFilter) {
+      if (filters.from !== "") {
+        data_mvFilter = data_mvFilter.filter(item =>
+          this.doFilter(item, filters, "from")
+        );
+      }
+
+      if (filters.to !== "") {
+        data_mvFilter = data_mvFilter.filter(item =>
+          this.doFilter(item, filters, "to")
+        );
+      }
+    }
+    //data_mvFilter = this.ReturnTable(data_mvFilter, data_mv);
+
     return (
       <ul>
-        {/* show modal  */}
-        <Modalfavoriteliste
-          show={this.state.show}
-          toggelModal={this.toggelModal}
-        />
-
-        {/*input search movies*/}
-
         <div className="icon">
+          {/****************   show List modal  */}
+          <Modalfavoriteliste
+            show={this.state.show}
+            toggelModal={this.toggelModal}
+          />
           {/* button list favorit */}
           {/* sent  "toggelModal" to moviesinfoiconnes to change visibility*/}
-          <Icon disabled name="list" onClick={this.toggelModal} />
-          <Filter
+          <Icon className="list" onClick={this.toggelModal} />
+        </div>
+        {/****************   show filter modal  */}
+        <div className="filter">
+          {/* button filter*/}
+          <Icon className="filter icon" onClick={this.toggelModalFavorit} />
+          <ModalFilterList
             handleChangeFilter={(filter, date) =>
-              //take result { filter, datefrom }Filter (children) with methode handleChangeFilter sent from Filter
+              //take result { filter, datefrom }Filter (children) with methode handleChangeFilter sent to Filter
               this.handleChangeFilter(filter, date)
             }
+            showFilter={this.state.showFilter}
+            toggelModalFavorit={this.toggelModalFavorit}
           />
         </div>
-        {/*  dates pickers*/}
+
         <div>
           <input
             className="input"
@@ -113,6 +136,7 @@ class Movies extends Component {
         {/*filter movies*/}
 
         {/*search movies from input movies */}
+
         {data_mvFilter &&
           data_mvFilter.map(movie => (
             <li key={movie.id}>

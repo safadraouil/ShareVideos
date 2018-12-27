@@ -1,8 +1,8 @@
 .card1 {
-  margin-top: 0%;
-  margin-left: 0%;
+  margin-top: 0;
+  margin-left: 0;
   min-height: 500px;
-  width: 100%;
+  width: 95%;
   position: absolute;
   float: left;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -33,18 +33,20 @@
 .ul1 {
   list-style-type: none;
 }
+
 .li1 {
   list-style-type: none;
 }
+
 .tite_card_pro {
   margin-top: 650px;
   position: relative;
 }
 
 .card_info1 {
-  margin-top: 700px;
+  margin-top: 900px;
   margin-bottom: 100px;
-  margin-left: 0%;
+  margin-left: 0;
   /*min-height: 500px;
   min-width: 500%;*/
   width: 20%;
@@ -73,12 +75,13 @@
   height: 10%;
   position: relative;
   text-align: center;
-  font-size: 0.4cm;
+  font-size: .4cm;
 }
 
 .ul_info1 {
   list-style-type: none;
 }
+
 .li_info1 {
   list-style-type: none;
 }
@@ -89,4 +92,12 @@
   font-size: 400px;
   background-color: #ebdede;
   color: black;
+}
+
+.nextprevious {
+  margin-top: 0;
+  margin-bottom: 50px;
+
+  margin-right: 90px;
+
 }

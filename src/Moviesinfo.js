@@ -110,15 +110,6 @@ class Moviesinfo extends Component {
 
                 <br />
               </div>
-              {/*   next and previous button */}
-              <div>
-                <Link to={`/Moviesinfo/${backid}`}>
-                  <Icon name="step backward" />
-                </Link>
-                <Link to={`/Moviesinfo/${nextId}`}>
-                  <Icon name="step forward" />
-                </Link>
-              </div>
             </div>
           </li>
         </ul>
@@ -151,6 +142,27 @@ class Moviesinfo extends Component {
             ) : null
           )}
         </ul>
+        <br />
+        <br />
+        <br />
+
+        {/*   next and previous button */}
+        <div className="nextprevious">
+          <Link to={`/Moviesinfo/${nextId}`}>
+            <Icon
+              className="big "
+              name="step forward"
+              class="massive home icon"
+            />
+          </Link>
+          <Link to={`/Moviesinfo/${backid}`}>
+            <Icon
+              className="big "
+              name="step backward"
+              class="massive home icon"
+            />
+          </Link>
+        </div>
       </div>
     );
   }

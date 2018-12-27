@@ -53,7 +53,7 @@ class Modalfavoriteliste extends Component {
               <Modal.Header>Favorite List Movies</Modal.Header>
               <Modal.Content image>
                 <Modal.Description>
-                  <Header>Modal Header</Header>
+                  <Header>Favorites</Header>
                   <p>Favorite List Movies 2018</p>
                 </Modal.Description>
                 <div>
