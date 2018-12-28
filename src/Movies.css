@@ -63,15 +63,22 @@ li {
 }
 
 .icon {
-  margin-right: 30px;
+  margin-right: 60px;
   float: right;
   position: relative;
 
 }
 
 .filter {
+  margin-right: 10px;
+  float: right;
+  position: relative;
+
+}
+
+.tri {
   margin-right: 30px;
   float: right;
   position: relative;
-  width: 50%;
+
 }

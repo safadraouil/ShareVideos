@@ -7,6 +7,8 @@ import ModalFilterList from "./ModalFilterList";
 import Modalfavoriteliste from "./Modalfavoriteliste";
 import isEqual from "lodash/isEqual";
 import moment from "moment";
+import _ from "lodash";
+
 class Movies extends Component {
   FORMAT = "YYYY-MM-DD";
   static propTypes = {
@@ -32,16 +34,12 @@ class Movies extends Component {
 
       filters: {
         to: "",
-        from: ""
+        from: "",
+        tri: false
       }
     };
   }
-  // intialise array movies whene  change data_mv
-  componentWillReceiveProps(nextProps) {
-    if (!isEqual(this.state.data_mv, nextProps.data_mv)) {
-      this.setState({ data_mv: nextProps.data_mv });
-    }
-  }
+
   // call  children Modalfavoriteliste and switch from icon to show modal
   toggelModal = () => {
     this.setState({ show: !this.state.show });
@@ -70,10 +68,26 @@ class Movies extends Component {
       ? fieldValue && relasedata >= fieldValue
       : fieldValue && relasedata <= fieldValue;
   }
+  HandelTriMovies = data_mvFilter => {
+    console.log("data_mvFilter11", data_mvFilter);
+    data_mvFilter = _.orderBy(data_mvFilter, "release_date", ["asc"]);
+    console.log("data_mvFilter22", data_mvFilter);
+    return data_mvFilter;
+  };
+  // intialise array movies whene  change data_mv
+  componentWillReceiveProps(nextProps) {
+    console.log("aaaaaaaa");
+    if (!isEqual(this.state.data_mv, nextProps.data_mv)) {
+      this.setState({ data_mv: nextProps.data_mv });
+    }
+    if (!isEqual(this.state.data_mvFilter, nextProps.data_mvFilter)) {
+      this.setState({ data_mvFilter: nextProps.data_mvFilter });
+    }
+  }
 
   render() {
     const { handelchange, search_value, data_mv } = this.props;
-    var { filters } = this.state;
+    var { filters, tri } = this.state;
     var data_mvFilter = data_mv;
 
     if (data_mvFilter) {
@@ -88,6 +102,9 @@ class Movies extends Component {
           this.doFilter(item, filters, "to")
         );
       }
+    }
+    if (tri === true) {
+      data_mvFilter = this.HandelTriMovies(data_mvFilter);
     }
 
     return (
@@ -106,6 +123,7 @@ class Movies extends Component {
         <div className="filter">
           {/* button filter*/}
           <Icon className="filter icon" onClick={this.toggelModalFavorit} />
+
           <ModalFilterList
             handleChangeFilter={(Begin, End) =>
               //take result { filter, datefrom }Filter (children) with methode handleChangeFilter send to Filter
@@ -114,6 +132,12 @@ class Movies extends Component {
             showFilter={this.state.showFilter}
             toggelModalFavorit={this.toggelModalFavorit}
             handleClickClear={this.handleClickClear}
+          />
+        </div>
+        <div className="tri">
+          <Icon
+            className="sort numeric down icon"
+            onClick={() => this.setState({ tri: true })}
           />
         </div>
 
