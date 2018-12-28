@@ -25,15 +25,16 @@ class ModalFilterList extends React.Component {
     this.state = {
       to: undefined,
       from: undefined,
-      target: "",
-      dateFormat: ""
+      dateFormat: "",
+      target: ""
     };
   }
   // change value of date in datepicker
   handleDayChange(date, target) {
     //change format date
     const dateFormat = moment(date).format(this.FORMAT);
-    this.setState({ target: target, dateFormat: dateFormat });
+    //this.setState({ target: target, dateFormat: dateFormat });
+    this.setState({ [target]: dateFormat });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -46,8 +47,8 @@ class ModalFilterList extends React.Component {
   }
   /* call  handleChangeFilter from movies whene on in filter button */
   handleClickSearch() {
-    const { dateFormat, target } = this.state;
-    this.props.handleChangeFilter(target, dateFormat);
+    const { Begin, End } = this.state;
+    this.props.handleChangeFilter(Begin, End);
     this.props.toggelModalFavorit();
   }
 
@@ -74,7 +75,7 @@ class ModalFilterList extends React.Component {
                 placeholder={`${dateFnsFormat(new Date(), this.FORMAT)}`}
                 onDayClick={this.handleDayClick}
                 //initialise  onDayChange to sent it to movies(props)
-                onDayChange={date => this.handleDayChange(date, "from")}
+                onDayChange={date => this.handleDayChange(date, "Begin")}
                 selectedDays={"from"}
               />
               {/*if click datepiker to*/}
@@ -84,7 +85,7 @@ class ModalFilterList extends React.Component {
                 format={this.FORMAT}
                 placeholder={`${dateFnsFormat(new Date(), this.FORMAT)}`}
                 onDayClick={this.handleDayClick}
-                onDayChange={date => this.handleDayChange(date, "to")}
+                onDayChange={date => this.handleDayChange(date, "End")}
                 selectedDays={"to"}
               />
             </div>

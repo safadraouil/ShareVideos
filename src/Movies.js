@@ -55,17 +55,11 @@ class Movies extends Component {
     this.setState({ filters: { from: "", to: "" } });
     this.toggelModalFavorit();
   };
-  handleChangeFilter(filter, date) {
+  handleChangeFilter(from, to) {
     var { filters } = this.state;
-
-    if (filter === "from") {
-      filters.from = date;
-      this.setState({ filters });
-    }
-    if (filter === "to") {
-      filters.to = date;
-      this.setState({ filters });
-    }
+    filters.from = from;
+    filters.to = to;
+    this.setState({ filters });
   }
   //filter date realise  following input datepicker and call methode where initialise  data_mvFilter in render
 
@@ -113,9 +107,9 @@ class Movies extends Component {
           {/* button filter*/}
           <Icon className="filter icon" onClick={this.toggelModalFavorit} />
           <ModalFilterList
-            handleChangeFilter={(filter, date) =>
+            handleChangeFilter={(Begin, End) =>
               //take result { filter, datefrom }Filter (children) with methode handleChangeFilter send to Filter
-              this.handleChangeFilter(filter, date)
+              this.handleChangeFilter(Begin, End)
             }
             showFilter={this.state.showFilter}
             toggelModalFavorit={this.toggelModalFavorit}
