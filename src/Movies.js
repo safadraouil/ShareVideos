@@ -35,7 +35,8 @@ class Movies extends Component {
       filters: {
         to: "",
         from: "",
-        tri: false
+        tri: false,
+        triDec: false
       }
     };
   }
@@ -69,14 +70,17 @@ class Movies extends Component {
       : fieldValue && relasedata <= fieldValue;
   }
   HandelTriMovies = data_mvFilter => {
-    console.log("data_mvFilter11", data_mvFilter);
+    /*cr*/
     data_mvFilter = _.orderBy(data_mvFilter, "release_date", ["asc"]);
-    console.log("data_mvFilter22", data_mvFilter);
+    return data_mvFilter;
+  };
+
+  HandelTriMoviesDec = data_mvFilter => {
+    data_mvFilter = _.orderBy(data_mvFilter, "release_date", ["desc"]);
     return data_mvFilter;
   };
   // intialise array movies whene  change data_mv
   componentWillReceiveProps(nextProps) {
-    console.log("aaaaaaaa");
     if (!isEqual(this.state.data_mv, nextProps.data_mv)) {
       this.setState({ data_mv: nextProps.data_mv });
     }
@@ -87,7 +91,7 @@ class Movies extends Component {
 
   render() {
     const { handelchange, search_value, data_mv } = this.props;
-    var { filters, tri } = this.state;
+    var { filters, tri, triDec } = this.state;
     var data_mvFilter = data_mv;
 
     if (data_mvFilter) {
@@ -105,6 +109,9 @@ class Movies extends Component {
     }
     if (tri === true) {
       data_mvFilter = this.HandelTriMovies(data_mvFilter);
+    }
+    if (triDec === true) {
+      data_mvFilter = this.HandelTriMoviesDec(data_mvFilter);
     }
 
     return (
@@ -136,8 +143,14 @@ class Movies extends Component {
         </div>
         <div className="tri">
           <Icon
-            className="sort numeric down icon"
+            className="sort numeric up icon"
             onClick={() => this.setState({ tri: true })}
+          />
+        </div>
+        <div className="tri">
+          <Icon
+            className=" sort numeric down icon"
+            onClick={() => this.setState({ triDec: true })}
           />
         </div>
 
