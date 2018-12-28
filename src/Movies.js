@@ -27,13 +27,16 @@ class Movies extends Component {
       showFilter: false,
       favorit_movies: [],
       data_mv: this.props.data_mv,
+      data_mvFilter: this.props.data_mv,
+      clear: false,
+
       filters: {
         to: "",
         from: ""
       }
     };
   }
-  // itialise array movies whene  change data_mv
+  // intialise array movies whene  change data_mv
   componentWillReceiveProps(nextProps) {
     if (!isEqual(this.state.data_mv, nextProps.data_mv)) {
       this.setState({ data_mv: nextProps.data_mv });
@@ -43,10 +46,15 @@ class Movies extends Component {
   toggelModal = () => {
     this.setState({ show: !this.state.show });
   };
+  // chose date filter from datepicker ===> switch save date in the filters object
   toggelModalFavorit = () => {
     this.setState({ showFilter: !this.state.showFilter });
   };
-  // chose date filter from datepicker ===> switch save date in the filters object
+
+  handleClickClear = () => {
+    this.setState({ filters: { from: "", to: "" } });
+    this.toggelModalFavorit();
+  };
   handleChangeFilter(filter, date) {
     var { filters } = this.state;
 
@@ -69,19 +77,11 @@ class Movies extends Component {
       : fieldValue && relasedata <= fieldValue;
   }
 
-  /*ReturnTable(data_mvFilter, data_mv) {
-    if (data_mvFilter === []) {
-      return data_mvFilter;
-    } else {
-      return data_mv;
-    }
-  }*/
   render() {
     const { handelchange, search_value, data_mv } = this.props;
     var { filters } = this.state;
     var data_mvFilter = data_mv;
 
-    //initialise  data_mvFilter in render to show movies result befor and after filter
     if (data_mvFilter) {
       if (filters.from !== "") {
         data_mvFilter = data_mvFilter.filter(item =>
@@ -95,7 +95,6 @@ class Movies extends Component {
         );
       }
     }
-    //data_mvFilter = this.ReturnTable(data_mvFilter, data_mv);
 
     return (
       <ul>
@@ -115,11 +114,12 @@ class Movies extends Component {
           <Icon className="filter icon" onClick={this.toggelModalFavorit} />
           <ModalFilterList
             handleChangeFilter={(filter, date) =>
-              //take result { filter, datefrom }Filter (children) with methode handleChangeFilter sent to Filter
+              //take result { filter, datefrom }Filter (children) with methode handleChangeFilter send to Filter
               this.handleChangeFilter(filter, date)
             }
             showFilter={this.state.showFilter}
             toggelModalFavorit={this.toggelModalFavorit}
+            handleClickClear={this.handleClickClear}
           />
         </div>
 
@@ -133,9 +133,7 @@ class Movies extends Component {
           />
         </div>
 
-        {/*filter movies*/}
-
-        {/*search movies from input movies */}
+        {/*display all  movies  or filter movies */}
 
         {data_mvFilter &&
           data_mvFilter.map(movie => (

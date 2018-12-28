@@ -15,7 +15,8 @@ class ModalFilterList extends React.Component {
     dateFormat: PropTypes.string,
     onDayChange: PropTypes.func,
     showFilter: PropTypes.bool,
-    handleClickSearch: PropTypes.finc
+    handleClickSearch: PropTypes.func,
+    toggelModalFavorit: PropTypes.func
   };
   FORMAT = "YYYY-MM-DD";
   constructor(props) {
@@ -47,6 +48,7 @@ class ModalFilterList extends React.Component {
   handleClickSearch() {
     const { dateFormat, target } = this.state;
     this.props.handleChangeFilter(target, dateFormat);
+    this.props.toggelModalFavorit();
   }
 
   render() {
@@ -95,12 +97,12 @@ class ModalFilterList extends React.Component {
             />
             <Icon
               name="google wallet"
-              onClick={() => this.handleClickSearch()}
+              onClick={this.props.handleClickClear}
               className="large "
             />
           </div>
         </Modal.Content>
-
+        {/* call toggelModalFavorit from movies(parent) in the props to this child*/}
         <Modal.Actions>
           <Button onClick={this.props.toggelModalFavorit}>close ></Button>
         </Modal.Actions>
