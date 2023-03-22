@@ -1,0 +1,98 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.Box {
+  background-color: "#F8F8FF";
+  padding: "3px 50px 3px 50px";
+}
+.Buttons {
+  margin: 10em;
+  margin-left: 50%;
+  width: 10%;
+  border: 1px solid #2fa4e7;
+  background: none;
+}
+
+.Inputs {
+  margin-left: 20em;
+  padding: 0.5em;
+  border: none;
+  border-radius: none;
+  border-bottom: 1px solid #2fa4e7;
+  margin-bottom: 1em;
+  width: 70%;
+}
+
+.Labels {
+  margin-left: 20em;
+  padding: 0.5em;
+  border: none;
+  margin-bottom: 1em;
+  color: #2fa4e7;
+}
+
+.Textareas {
+  width: 70%;
+  margin-left: 20em;
+  padding: 0.5em;
+  margin-bottom: 2em;
+  border: none;
+  border-radius: none;
+  border-bottom: 1px solid #2fa4e7;
+}
+
+.List {
+  list-style-type: none;
+}
+
+.Titl {
+  margin-top: 2em;
+  text-align: center;
+}
+
+.Card {
+  color: rgb(197, 122, 147);
+  border-radius: 3px;
+}
+
+.Formscard {
+  margin-top: 10em;
+  display: block;
+}
+//@import url("https://fonts.googleapis.com/css?family=Open+Sans");

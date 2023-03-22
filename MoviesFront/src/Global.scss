@@ -1,0 +1,183 @@
+.Container-contact {
+  width: inherit;
+  height: inherit;
+}
+
+.toast-header {
+  justify-content: space-between;
+}
+.body-contact {
+  background-color: #ffffff;
+  width: inherit;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  font-size: 100%;
+  color: white;
+}
+
+p {
+  font-size: 1.4vw;
+  font-style: italic;
+  font-family: serif;
+}
+br {
+  box-sizing: unset;
+}
+.second-block-contact {
+  background-color: #ffffff;
+  padding: 4rem 1rem 4rem 0rem;
+  justify-content: space-between;
+  width: inherit;
+  height: inherit;
+  display: flex;
+  flex-direction: row;
+  font-size: 100%;
+  color: white;
+}
+.first-block-contact {
+  background-color: #ffffff;
+  padding: 4rem 1rem 4rem 0rem;
+  width: inherit;
+  height: inherit;
+  display: flex;
+  flex-direction: row;
+  font-size: 100%;
+  color: white;
+}
+.Left-Card-contact {
+  // width: 33vw;
+  height: inherit;
+  margin: 1rem 0.5rem 1rem 0.5rem;
+}
+.Midel-Card-contact {
+  width: 60vw;
+  height: inherit;
+  margin: 1rem 0.5rem 1rem 0rem;
+}
+.Right-Card-contact {
+  //width: 31vw;
+  width: 73vw;
+  text-align: -webkit-right;
+  margin: 1rem 1rem 1rem 0rem;
+}
+.Software-Presentation-contact {
+  width: 30vw;
+  height: auto;
+  border: 1px solid;
+  border-color: #fff;
+  background-color: #ffffff;
+  color: rgb(165, 162, 165);
+  padding: 1rem 1rem 1rem 1rem;
+  margin-top: 4rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  p {
+    font-size: 1.4vw;
+    text-align: center;
+    font-style: italic;
+    font-family: serif;
+    color: #cfcfcf;
+  }
+  br {
+    box-sizing: unset;
+  }
+  h1 {
+    font-size: 3.2em;
+    font-weight: 500;
+    font-style: oblique;
+    font-family: serif;
+    color: #cfcfcf;
+  }
+}
+.photo-designe-contact {
+  width: 100%;
+  height: 80vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input[type="text"],
+select,
+textarea {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type="submit"] {
+  background-color: #178acc;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  //  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.container-Register {
+  width: 100%;
+  padding: 40px;
+  border-radius: 5px;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  // width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+input[type="password"],
+select,
+textarea {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col-25,
+  .col-75,
+  input[type="submit"] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+.toast-body {
+  color: gray;
+}
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
