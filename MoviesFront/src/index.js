@@ -1,23 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "bootswatch/dist/cerulean/bootstrap.min.css";
-import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 import "./index.css";
 import Navbar from "./Navbar";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { disableReactDevTools } from "@fvilers/disable-reactdevtools";
-
-/* import "bootstrap/dist/css/bootstrap.min.css";
-import "bootswatch/dist/cerulean/bootstrap.min.css";
-//import "bootstrap/scss/bootstrap";
-//import "bootstrap/dist/css/bootstrap.css";
-import "./index.css";
-
-import * as serviceWorker from "./serviceWorker"; */
-
-if (process.env.NODE_ENV === "production") disableReactDevtools();
-
+import { disableReactDevTools } from "@fvilers/disable-react-devtools";
+if (process.env.NODE_ENV === "production") disableReactDevTools();
 ReactDOM.render(
   <React.Fragment>
     <Navbar>
