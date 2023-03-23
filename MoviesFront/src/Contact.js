@@ -9,7 +9,7 @@ export default function Contact() {
   const [inputs, setInputs] = useState({});
   const [showToast, setToast] = useState(false);
   const [infoText, setInfoText] = useState("");
-
+  //
   useEffect(() => {
     if (textRef && textRef.current) {
       textRef.current.style.height = "0px";

@@ -27,3 +27,4 @@ const Toast = ({ show, setToast, text }) => {
 };
 
 export default Toast;
+/* */
